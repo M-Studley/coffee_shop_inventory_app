@@ -39,6 +39,24 @@ class Locations:
         return results
 
 
+class LocationManager:
+    @staticmethod
+    def _create_location(*, store_id: int,
+                         address: str,
+                         city: str,
+                         state: str,
+                         postal_code: str) -> int:
+        location_query = """
+        INSERT INTO `location` (`_store_id`, `address`, `city`, `state`, `postal_code`)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        location_data = (store_id, address, city, state, postal_code)
+        db.execute(location_query, location_data)
+        location_id_query = db.fetchone("SELECT MAX(`id`) FROM `store`")
+        location_id = location_id_query['MAX(`id`)']
+
+        return location_id
+
 # locations = Locations()
 #
 # print(locations.search(id=1, address='123 Main st.'))

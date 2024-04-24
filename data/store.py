@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import cached_property, cache
 from database.database import Database
-from data.location import Location, Locations
+from data.location import Location, Locations, LocationManager
 
 db = Database()
 locations = Locations()
@@ -45,5 +45,45 @@ class Stores:
         return results
 
 
+class StoreManager:
+    @staticmethod
+    def create_store_with_location(*, number: int,
+                                   name: str,
+                                   phone: str,
+                                   address: str,
+                                   city: str,
+                                   state: str,
+                                   postal_code: str) -> int:
+
+        existing_store = Locations().search(address=address)
+        if existing_store:
+            raise ValueError("A store with the same address already exists.")
+
+        store_query = """
+        INSERT INTO `store` (`number`, `name`, `phone`)
+        VALUES (%s, %s, %s)
+        """
+        store_data = (number, name, phone)
+        db.execute(store_query, store_data)
+        store_id_query = db.fetchone("SELECT MAX(`id`) FROM `store`")
+        store_id = store_id_query['MAX(`id`)']
+
+        LocationManager._create_location(store_id=store_id,
+                                         address=address,
+                                         city=city,
+                                         state=state,
+                                         postal_code=postal_code)
+
+        return store_id
+
+
 # stores = Stores()
-# print(stores.search(phone='603-222-2222'))
+store_manager = StoreManager()
+print(store_manager.create_store_with_location(number=4,
+                                               name='Test Store #4',
+                                               phone='666-666-6666',
+                                               address='777 7th st.',
+                                               city='Test City',
+                                               state='TS',
+                                               postal_code='66666'))
+

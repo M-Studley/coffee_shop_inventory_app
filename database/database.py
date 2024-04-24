@@ -49,12 +49,14 @@ class Database:
         print(f"Running {query}")
         return curs.fetchone()
 
-    def executemany(self, query: str, data: list) -> None:
+    def executemany(self, query: str, data: list[tuple]) -> None:
         print("Executing many...")
         self.curs.executemany(query, data)
         self.conn.commit()
 
-    def execute(self, query: str, data: str) -> None:
+    def execute(self, query: str, data: tuple) -> None:
         print("Executing one...")
         self.curs.execute(query, data)
         self.conn.commit()
+
+
