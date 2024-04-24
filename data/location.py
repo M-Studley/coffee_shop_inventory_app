@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from database.database import Database
 from functools import cached_property, cache
+from database.database import Database
 
 db = Database()
 
@@ -39,6 +39,6 @@ class Locations:
         return results
 
 
-locations = Locations()
-
-print(locations.search(id=1))
+# locations = Locations()
+#
+# print(locations.search(id=1, address='123 Main st.'))

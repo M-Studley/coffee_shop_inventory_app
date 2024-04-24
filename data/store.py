@@ -18,7 +18,7 @@ class Store:
 
 class Stores:
     @cached_property
-    def full_list(self):
+    def full_list(self) -> list[Store]:
         full_list = []
         query = "SELECT * FROM `store`"
         all_rows = db.fetchall(query)
@@ -30,7 +30,7 @@ class Stores:
         return full_list
 
     @cache
-    def search(self, **kwargs) -> list:
+    def search(self, **kwargs) -> list[Store] | list[str]:
         results = self.full_list[:]
         for store in self.full_list:
             for key in kwargs:
