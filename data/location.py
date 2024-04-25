@@ -40,8 +40,9 @@ class Locations:
 
 
 class LocationManager:
-    @staticmethod
-    def _create_location(*, store_id: int,
+    @classmethod
+    def _create_location(cls, *,
+                         store_id: int,
                          address: str,
                          city: str,
                          state: str,
@@ -52,11 +53,11 @@ class LocationManager:
         """
         location_data = (store_id, address, city, state, postal_code)
         db.execute(location_query, location_data)
-        location_id_query = db.fetchone("SELECT MAX(`id`) FROM `store`")
-        location_id = location_id_query['MAX(`id`)']
+        location_id_query = db.fetchone("SELECT MAX(`id`) AS `max_id` FROM `store`")
+        location_id = location_id_query['max_id']
 
         return location_id
 
+
 # locations = Locations()
-#
 # print(locations.search(id=1, address='123 Main st.'))

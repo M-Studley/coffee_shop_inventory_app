@@ -46,8 +46,9 @@ class Stores:
 
 
 class StoreManager:
-    @staticmethod
-    def create_store_with_location(*, number: int,
+    @classmethod
+    def create_store_with_location(cls, *,
+                                   number: int,
                                    name: str,
                                    phone: str,
                                    address: str,
@@ -56,6 +57,7 @@ class StoreManager:
                                    postal_code: str) -> int:
 
         existing_store = Locations().search(address=address)
+
         if existing_store:
             raise ValueError("A store with the same address already exists.")
 
@@ -65,8 +67,8 @@ class StoreManager:
         """
         store_data = (number, name, phone)
         db.execute(store_query, store_data)
-        store_id_query = db.fetchone("SELECT MAX(`id`) FROM `store`")
-        store_id = store_id_query['MAX(`id`)']
+        store_id_query = db.fetchone("SELECT MAX(`id`) AS `max_id` FROM `store`")
+        store_id = store_id_query['max_id']
 
         LocationManager._create_location(store_id=store_id,
                                          address=address,
@@ -77,13 +79,10 @@ class StoreManager:
         return store_id
 
 
-# stores = Stores()
-store_manager = StoreManager()
-print(store_manager.create_store_with_location(number=4,
-                                               name='Test Store #4',
-                                               phone='666-666-6666',
-                                               address='777 7th st.',
-                                               city='Test City',
-                                               state='TS',
-                                               postal_code='66666'))
-
+print(StoreManager().create_store_with_location(number=4,
+                                                name='Test Store #1',
+                                                phone='111-111-1111',
+                                                address='111 1th st.',
+                                                city='Test City',
+                                                state='TS',
+                                                postal_code='11111'))
