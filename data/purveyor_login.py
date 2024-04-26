@@ -8,8 +8,9 @@ db = Database()
 @dataclass
 class PurveyorLogin:
     id: int
-    name: str
+    user_name: str
     password: str
+    _purveyor_id: int
 
 
 class PurveyorLogins:
@@ -34,3 +35,9 @@ class PurveyorLogins:
                     break
 
         return results
+
+
+# for login in PurveyorLogins().full_list:
+#     print(login)
+
+# print(PurveyorLogins().search(id=1))

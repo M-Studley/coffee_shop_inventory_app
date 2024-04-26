@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from functools import cache, cached_property
 from database.database import Database
+from data.purveyor_login import PurveyorLogin, PurveyorLogins
 
 db = Database()
 
@@ -11,14 +12,21 @@ class Purveyor:
     name: str
     url: str
     email: str
+    login: PurveyorLogin = None
 
 
 class Purveyors:
     @cached_property
     def full_list(self) -> list[Purveyor]:
+        full_list = []
         query = "SELECT * FROM `purveyor`"
         all_rows = db.fetchall(query)
-        return [Purveyor(**row) for row in all_rows]
+        for row in all_rows:
+            purveyor = Purveyor(**row)
+            purveyor_login = PurveyorLogins().search(_purveyor_id=purveyor.id)
+            purveyor.login = purveyor_login[0] if purveyor_login else None
+            full_list.append(purveyor)
+        return full_list
 
     @cache
     def search(self, **kwargs) -> list[Purveyor] | list[str]:
@@ -35,3 +43,7 @@ class Purveyors:
                     break
 
         return results
+
+
+# for purveyor in Purveyors().full_list:
+#     print(purveyor)
