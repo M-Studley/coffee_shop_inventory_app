@@ -34,7 +34,3 @@ class ItemCategories:
                     break
 
         return results
-
-
-item_categories = ItemCategories()
-print(item_categories.search(id=2, name='dairy'))

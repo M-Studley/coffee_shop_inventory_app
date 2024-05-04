@@ -4,7 +4,6 @@ from database.database import Database
 from data.location import Location, Locations, LocationManager
 
 db = Database()
-locations = Locations()
 
 
 @dataclass
@@ -24,8 +23,8 @@ class Stores:
         all_rows = db.fetchall(query)
         for row in all_rows:
             store = Store(**row)
-            my_location = locations.search(_store_id=store.id)
-            store.location = my_location[0] if my_location else None
+            location = Locations().search(_store_id=store.id)
+            store.location = location[0] if location else None
             full_list.append(store)
         return full_list
 
@@ -55,7 +54,6 @@ class StoreManager:
                                    city: str,
                                    state: str,
                                    postal_code: str) -> int:
-
         existing_store = Locations().search(address=address)
 
         if existing_store:
@@ -67,10 +65,12 @@ class StoreManager:
         """
         store_data = (number, name, phone)
         db.execute(store_query, store_data)
-        store_id_query = db.fetchone("SELECT MAX(`id`) AS `max_id` FROM `store`")
-        store_id = store_id_query['max_id']
+        store_id_query = db.fetchone("SELECT LAST_INSERT_ID() AS `last_id` FROM `store`")
+        store_id = store_id_query['last_id']
 
-        LocationManager._create_location(store_id=store_id,
+        entity = Stores().search(id=store_id)
+
+        LocationManager._create_location(entity=entity[0],
                                          address=address,
                                          city=city,
                                          state=state,
@@ -79,10 +79,10 @@ class StoreManager:
         return store_id
 
 
-print(StoreManager().create_store_with_location(number=4,
-                                                name='Test Store #1',
-                                                phone='111-111-1111',
-                                                address='111 1th st.',
-                                                city='Test City',
-                                                state='TS',
-                                                postal_code='11111'))
+# print(StoreManager().create_store_with_location(number=5,
+#                                                 name='Test Store #5',
+#                                                 phone='555-555-5555',
+#                                                 address='555 5th st.',
+#                                                 city='Test City',
+#                                                 state='TS',
+#                                                 postal_code='55555'))

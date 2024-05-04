@@ -8,10 +8,11 @@ db = Database()
 @dataclass
 class ItemInfo:
     id: int
+    _item_id: int
     price: float
     purchase_date: str
-    checked_in: str
-    checked_out: str
+    check_in: str
+    check_out: str
     order_status: str
 
 

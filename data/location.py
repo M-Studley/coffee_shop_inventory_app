@@ -42,19 +42,19 @@ class Locations:
 class LocationManager:
     @classmethod
     def _create_location(cls, *,
-                         store_id: int,
+                         entity,
                          address: str,
                          city: str,
                          state: str,
                          postal_code: str) -> int:
         location_query = """
-        INSERT INTO `location` (`_store_id`, `address`, `city`, `state`, `postal_code`)
+        INSERT INTO `location` (`address`, `city`, `state`, `postal_code`)
         VALUES (%s, %s, %s, %s, %s)
         """
-        location_data = (store_id, address, city, state, postal_code)
+        location_data = (address, city, state, postal_code)
         db.execute(location_query, location_data)
-        location_id_query = db.fetchone("SELECT MAX(`id`) AS `max_id` FROM `store`")
-        location_id = location_id_query['max_id']
+        location_id_query = db.fetchone("SELECT LAST_INSERT_ID() AS `last_id` FROM `location`")
+        location_id = location_id_query['last_id']
 
         return location_id
 

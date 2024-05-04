@@ -43,7 +43,3 @@ class Purveyors:
                     break
 
         return results
-
-
-# for purveyor in Purveyors().full_list:
-#     print(purveyor)
