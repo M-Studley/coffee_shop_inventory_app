@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from functools import cached_property, cache
 from database.database import Database
+from data.utils import BaseManager
 
 db = Database()
 
@@ -15,28 +16,33 @@ class Location:
     postal_code: int
 
 
-class Locations:
-    @cached_property
-    def full_list(self) -> list[Location]:
-        query = "SELECT * FROM `location`"
-        all_rows = db.fetchall(query)
-        return [Location(**row) for row in all_rows]
+class Locations(BaseManager):
+    def __init__(self):
+        super().__init__('location', Location)
 
-    @cache
-    def search(self, **kwargs) -> list[Location] | list[str]:
-        results = self.full_list[:]
-        for location in self.full_list:
-            for key in kwargs:
-                try:
-                    value = getattr(location, key)
-                except AttributeError:
-                    return [f"Key '{key}' does not exist..."]
 
-                if value != kwargs[key]:
-                    results.remove(location)
-                    break
-
-        return results
+# class Locations:
+#     @cached_property
+#     def full_list(self) -> list[Location]:
+#         query = "SELECT * FROM `location`"
+#         all_rows = db.fetchall(query)
+#         return [Location(**row) for row in all_rows]
+#
+#     @cache
+#     def search(self, **kwargs) -> list[Location] | list[str]:
+#         results = self.full_list[:]
+#         for location in self.full_list:
+#             for key in kwargs:
+#                 try:
+#                     value = getattr(location, key)
+#                 except AttributeError:
+#                     return [f"Key '{key}' does not exist..."]
+#
+#                 if value != kwargs[key]:
+#                     results.remove(location)
+#                     break
+#
+#         return results
 
 
 class LocationManager:
@@ -59,5 +65,5 @@ class LocationManager:
         return location_id
 
 
-# locations = Locations()
-# print(locations.search(id=1, address='123 Main st.'))
+locations = Locations()
+print(locations.search(id=1, address='123 Main st.'))
