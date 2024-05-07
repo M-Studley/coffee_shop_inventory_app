@@ -18,8 +18,8 @@ class PurveyorLogins(BaseManager):
         super().__init__('purveyor_login', PurveyorLogin)
 
 
-print(PurveyorLogins().full_list)
-print(PurveyorLogins().search(id=1))
+# print(PurveyorLogins().full_list)
+# print(PurveyorLogins().search(id=1))
 
 # class PurveyorLogins:
 #     @cached_property

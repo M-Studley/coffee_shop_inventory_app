@@ -17,8 +17,8 @@ class ItemCategories(BaseManager):
         super().__init__('item_category', ItemCategory)
 
 
-print(ItemCategories().full_list)
-print(ItemCategories().search(id=1))
+# print(ItemCategories().full_list)
+# print(ItemCategories().search(id=1))
 
 
 # class ItemCategories:

@@ -21,8 +21,8 @@ class ItemInfos(BaseManager):
         super().__init__('item_info', ItemInfo)
 
 
-print(ItemInfos().full_list)
-print(ItemInfos().search(id=1))
+# print(ItemInfos().full_list)
+# print(ItemInfos().search(id=1))
 
 
 # class ItemInfos:

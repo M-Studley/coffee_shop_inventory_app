@@ -23,7 +23,7 @@ class BaseManager:
                 try:
                     value = getattr(item, key)
                 except AttributeError:
-                    return [f"Key '{key}' does not exist..."]
+                    raise Exception(f"Key '{key}' does not exist...")
 
                 if value != kwargs[key]:
                     results.remove(item)

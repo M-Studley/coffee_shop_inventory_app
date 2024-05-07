@@ -1,6 +1,6 @@
 from dataclasses import dataclass
+from functools import cached_property, cache
 from database.database import Database
-from functools import cache, cached_property
 from data.store import Store, Stores
 
 db = Database()
@@ -32,14 +32,14 @@ class Employees:
         return full_list
 
     @cache
-    def search(self, **kwargs) -> list[Employee] | list[str]:
+    def search(self, **kwargs) -> list[Employee]:
         results = self.full_list[:]
         for employee in self.full_list:
             for key in kwargs:
                 try:
                     value = getattr(employee, key)
                 except AttributeError:
-                    return [f"Key '{key}' does not exist..."]
+                    raise Exception(f"Key '{key}' does not exist...")
 
                 if value != kwargs[key]:
                     results.remove(employee)
@@ -48,4 +48,4 @@ class Employees:
         return results
 
 
-# print(Employees().search())
+# print(Employees().search(id=1))

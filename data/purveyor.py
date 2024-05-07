@@ -27,7 +27,7 @@ class Purveyors(BaseManager):
         return full_list
 
 
-print(Purveyors().full_list())
+# print(Purveyors().full_list())
 
 
 # class Purveyors:
