@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from functools import cached_property, cache
 from database.database import Database
 from data.location import Location, Locations
+from data.utils import BaseManager
 
 db = Database()
 
@@ -15,35 +15,22 @@ class Store:
     location: Location = None
 
 
-class Stores:
-    @cached_property
-    def full_list(self) -> list[Store]:
-        full_list = []
-        query = "SELECT * FROM `store`"
-        all_rows = db.fetchall(query)
-        for row in all_rows:
-            store = Store(**row)
+class Stores(BaseManager):
+    def __init__(self):
+        super().__init__('store', Store)
+
+    def full_list(self) -> list:
+        full_list = super().full_list()
+        for store in full_list:
             store.location = next((c for c in Locations().search(_store_id=store.id)), None)
-            full_list.append(store)
+
         return full_list
 
-    @cache
-    def search(self, **kwargs) -> list[Store]:
-        results = self.full_list[:]
-        for store in self.full_list:
-            for key in kwargs:
-                try:
-                    value = getattr(store, key)
-                except AttributeError:
-                    raise Exception(f"Key '{key}' does not exist...")
 
-                if value != kwargs[key]:
-                    results.remove(store)
-                    break
-
-        return results
-
-
+# stores = Stores()
+# print(stores.full_list())
+# print()
+# print(stores.search(id=1))
 
 
 # class StoreManager:

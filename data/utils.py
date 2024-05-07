@@ -9,7 +9,7 @@ class BaseManager:
         self.table = table_name
         self.model_class = model_class
 
-    @cached_property
+    # @cached_property
     def full_list(self) -> list:
         query = f"SELECT * FROM `{self.table}`"
         all_rows = db.fetchall(query)
@@ -17,8 +17,8 @@ class BaseManager:
 
     @cache
     def search(self, **kwargs) -> list:
-        results = self.full_list[:]
-        for item in self.full_list:
+        results = self.full_list()
+        for item in results:
             for key in kwargs:
                 try:
                     value = getattr(item, key)
