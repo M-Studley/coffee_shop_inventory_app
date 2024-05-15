@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from database.database import Database
 from data.location import Locations
+from data.inventory import Inventories
+from data.employee import Employees
 from data.utils import Searchable
 
 db = Database()
@@ -17,6 +19,14 @@ class Store:
     def location(self):
         return Locations().search(_store_id=self.id)
 
+    @property
+    def inventory(self):
+        return Inventories().search(_store_id=self.id)
+
+    @property
+    def employees(self):
+        return Employees().search(_store_number_id=self.id)
+
 
 class Stores(Searchable):
     child = Store
@@ -26,6 +36,8 @@ class Stores(Searchable):
 # print()
 # for store in Stores().search(id=1):
 #     print(store.location)
+#     print(store.inventory)
+#     print(store.employees)
 
 
 # class StoreManager:;

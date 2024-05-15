@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.store import Stores
+# from data.store import Stores
 from data.utils import Searchable
 
 db = Database()
@@ -16,16 +16,10 @@ class Employee:
     email: str
     permission_level: int
 
-    @property
-    def store(self):
-        return Stores().search(id=self._store_number_id)
-
 
 class Employees(Searchable):
     child = Employee
 
 
-print(Employees().search())
-print()
-for employee in Employees().search(id=1):
-    print(employee.store)
+# print(Employees().search())
+

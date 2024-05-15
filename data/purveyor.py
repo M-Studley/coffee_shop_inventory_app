@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from database.database import Database
 from data.purveyor_login import PurveyorLogins
+from data.item import Items
 from data.utils import Searchable
 
 db = Database()
@@ -17,11 +18,16 @@ class Purveyor:
     def purveyor_login(self):
         return PurveyorLogins().search(_purveyor_id=self.id)
 
+    @property
+    def items(self):
+        return Items().search(_purveyor_id=self.id)
+
 
 class Purveyors(Searchable):
     child = Purveyor
 
 
 # print(Purveyors().search())
-# for purveyor in Purveyors().search(id=2):
-#     print(purveyor.purveyor_login)
+for purveyor in Purveyors().search(id=1):
+    print(purveyor.purveyor_login)
+    print(purveyor.items)

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
+from data.item import Items
 from data.utils import Searchable
 
 db = Database()
@@ -9,6 +10,11 @@ db = Database()
 class Inventory:
     id: int
     name: str
+    _store_id: int
+
+    @property
+    def items(self):
+        return Items().search(_inventory_id=self.id)
 
 
 class Inventories(Searchable):
@@ -16,3 +22,6 @@ class Inventories(Searchable):
 
 
 print(Inventories().search())
+print()
+for inventory in Inventories().search(id=1):
+    print(inventory.items)
