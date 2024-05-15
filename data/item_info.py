@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.utils import BaseManager
+from data.utils import Searchable
 
 db = Database()
 
@@ -16,11 +16,8 @@ class ItemInfo:
     order_status: str
 
 
-class ItemInfos(BaseManager):
-    @classmethod
-    def search(cls, **kwargs):
-        return BaseManager.search(**kwargs)
+class ItemInfos(Searchable):
+    child = ItemInfo
 
 
-# item_infos = ItemInfos()
-# print(item_infos.search(model_class=ItemInfo, table='item_info'))
+# print(ItemInfos().search())

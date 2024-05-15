@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.store import Store, Stores
-from data.utils import BaseManager
+from data.store import Stores
+from data.utils import Searchable
 
 db = Database()
 
@@ -15,14 +15,17 @@ class Employee:
     password: str
     email: str
     permission_level: int
-    store: Store = None
+
+    @property
+    def store(self):
+        return Stores().search(id=self._store_number_id)
 
 
-class Employees(BaseManager):
-    pass
+class Employees(Searchable):
+    child = Employee
 
 
-# employees = Employees()
-# print(employees.full_list())
-# print()
-# print(employees.search(id=2))
+print(Employees().search())
+print()
+for employee in Employees().search(id=1):
+    print(employee.store)

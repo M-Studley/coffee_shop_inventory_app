@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.utils import BaseManager
+from data.utils import Searchable
 
 db = Database()
 
@@ -11,11 +11,8 @@ class Inventory:
     name: str
 
 
-class Inventories(BaseManager):
-    @classmethod
-    def search(cls, **kwargs):
-        return BaseManager.search(**kwargs)
+class Inventories(Searchable):
+    child = Inventory
 
 
-# inventories = Inventories()
-# print(inventories.search(model_class=Inventory, table='inventory'))
+print(Inventories().search())

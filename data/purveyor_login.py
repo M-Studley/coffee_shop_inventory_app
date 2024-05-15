@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.utils import BaseManager
+from data.utils import Searchable
 
 db = Database()
 
@@ -13,11 +13,9 @@ class PurveyorLogin:
     _purveyor_id: int
     
     
-class PurveyorLogins(BaseManager):
-    @classmethod
-    def search(cls, **kwargs):
-        return BaseManager.search(**kwargs)
+class PurveyorLogins(Searchable):
+    child = PurveyorLogin
 
 
-# purveyor_logins = PurveyorLogins()
-# print(purveyor_logins.search(model_class=PurveyorLogin, table='purveyor_login'))
+# pur_log = PurveyorLogins()
+# print(pur_log.search())

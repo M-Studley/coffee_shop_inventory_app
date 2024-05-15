@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.utils import BaseManager
+from data.utils import Searchable
 
 db = Database()
 
@@ -15,13 +15,12 @@ class Location:
     postal_code: int
 
 
-class Locations(BaseManager):
-    @classmethod
-    def search(cls, **kwargs):
-        return BaseManager.search(**kwargs)
+class Locations(Searchable):
+    child = Location
 
 
-# print(Locations().search(table='location', model_class=Location))
+# print(Locations().search())
+# print(Locations().search(id=1))
 
 
 # class LocationManager:

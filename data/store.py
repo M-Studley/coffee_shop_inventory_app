@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.location import Location
-from data.utils import BaseManager
+from data.location import Locations
+from data.utils import Searchable
 
 db = Database()
 
@@ -15,22 +15,16 @@ class Store:
 
     @property
     def location(self):
-        return next(iter(BaseManager().search(
-            table='location',
-            model_class=Location,
-            _store_id=self.id)
-        ), None)
+        return Locations().search(_store_id=self.id)
 
 
-class Stores(BaseManager):
-    @classmethod
-    def search(cls, **kwargs):
-        return BaseManager.search(table='store', model_class=Store, **kwargs)
+class Stores(Searchable):
+    child = Store
 
 
-# print(Stores.search(id=2))
+# print(Stores().search())
 # print()
-# for store in Stores().search(id=2):
+# for store in Stores().search(id=1):
 #     print(store.location)
 
 

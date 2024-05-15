@@ -1,10 +1,8 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.item_category import ItemCategory, ItemCategories
-from data.item_info import ItemInfo, ItemInfos
-from data.purveyor import Purveyor, Purveyors
-from data.inventory import Inventory, Inventories
-from data.utils import BaseManager
+from data.item_category import ItemCategories
+from data.item_info import ItemInfos
+from data.utils import Searchable
 
 db = Database()
 
@@ -20,11 +18,24 @@ class Item:
     _purveyor_id: int
     sku: str
     _inventory_id: int
-    category: ItemCategory = None
-    info: ItemInfo = None
-    # purveyor: Purveyor = None
-    # inventory: Inventory = None
+
+    @property
+    def item_category(self):
+        return ItemCategories().search(id=self._category_id)
+
+    @property
+    def item_info(self):
+        return ItemInfos().search(id=self._category_id)
 
 
-class Items(BaseManager):
-    pass
+class Items(Searchable):
+    child = Item
+
+
+print(Items().search())
+print()
+for item in Items().search(id=1):
+    print(item.item_category, 'item category')
+print()
+for item in Items().search(id=1):
+    print(item.item_info, 'item info')

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.utils import BaseManager
+from data.utils import Searchable
 
 db = Database()
 
@@ -12,11 +12,8 @@ class ItemCategory:
     description: str
     
     
-class ItemCategories(BaseManager):
-    @classmethod
-    def search(cls, **kwargs):
-        return BaseManager.search(**kwargs)
+class ItemCategories(Searchable):
+    child = ItemCategory
 
 
-# item_categories = ItemCategories()
-# print(item_categories.search(model_class=ItemCategory, table='item_category'))
+# print(ItemCategories().search())
