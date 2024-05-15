@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.purveyor_login import PurveyorLogin, PurveyorLogins
+from data.purveyor_login import PurveyorLogin
 from data.utils import BaseManager
 
 db = Database()
@@ -12,22 +12,22 @@ class Purveyor:
     name: str
     url: str
     email: str
-    login: PurveyorLogin = None
+
+    @property
+    def purveyor_login(self):
+        return next(iter(BaseManager().search(
+            table='purveyor_login',
+            model_class=PurveyorLogin,
+            _purveyor_id=self.id)
+        ), None)
 
 
 class Purveyors(BaseManager):
-    def __init__(self):
-        super().__init__('purveyor', Purveyor)
-
-    def full_list(self) -> list:
-        full_list = super().full_list()
-        for purveyor in full_list:
-            purveyor.login = next((c for c in PurveyorLogins().search(_purveyor_id=purveyor.id)), None)
-
-        return full_list
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(table='purveyor', model_class=Purveyor, **kwargs)
 
 
-# purveyors = Purveyors()
-# print(purveyors.full_list())
-# print()
-# print(purveyors.search(id=1))
+# print(Purveyors.search())
+# for purveyor in Purveyors().search(id=1):
+#     print(purveyor.purveyor_login)

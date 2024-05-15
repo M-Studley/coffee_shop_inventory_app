@@ -17,10 +17,10 @@ class ItemInfo:
 
 
 class ItemInfos(BaseManager):
-    def __init__(self):
-        super().__init__('item_info', ItemInfo)
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(**kwargs)
 
 
-item_infos = ItemInfos()
-print(item_infos.full_list())
-print(item_infos.search(id=1))
+# item_infos = ItemInfos()
+# print(item_infos.search(model_class=ItemInfo, table='item_info'))

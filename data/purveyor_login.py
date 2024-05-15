@@ -14,9 +14,10 @@ class PurveyorLogin:
     
     
 class PurveyorLogins(BaseManager):
-    def __init__(self):
-        super().__init__('purveyor_login', PurveyorLogin)
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(**kwargs)
 
 
-print(PurveyorLogins().full_list())
-print(PurveyorLogins().search(id=1))
+# purveyor_logins = PurveyorLogins()
+# print(purveyor_logins.search(model_class=PurveyorLogin, table='purveyor_login'))

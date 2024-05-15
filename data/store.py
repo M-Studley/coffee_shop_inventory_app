@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from database.database import Database
-from data.location import Location, Locations
+from data.location import Location
 from data.utils import BaseManager
 
 db = Database()
@@ -12,28 +12,29 @@ class Store:
     number: int
     name: str
     phone: str
-    location: Location = None
+
+    @property
+    def location(self):
+        return next(iter(BaseManager().search(
+            table='location',
+            model_class=Location,
+            _store_id=self.id)
+        ), None)
 
 
 class Stores(BaseManager):
-    def __init__(self):
-        super().__init__('store', Store)
-
-    def full_list(self) -> list:
-        full_list = super().full_list()
-        for store in full_list:
-            store.location = next((c for c in Locations().search(_store_id=store.id)), None)
-
-        return full_list
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(table='store', model_class=Store, **kwargs)
 
 
-# stores = Stores()
-# print(stores.full_list())
+# print(Stores.search(id=2))
 # print()
-# print(stores.search(id=1))
+# for store in Stores().search(id=2):
+#     print(store.location)
 
 
-# class StoreManager:
+# class StoreManager:;
 #     @classmethod
 #     def create_store_with_location(cls, *,
 #                                    number: int,

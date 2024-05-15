@@ -16,14 +16,12 @@ class Location:
 
 
 class Locations(BaseManager):
-    def __init__(self):
-        super().__init__('location', Location)
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(**kwargs)
 
 
-# locations = Locations()
-# print(locations.full_list())
-# print()
-# print(locations.search(id=2))
+# print(Locations().search(table='location', model_class=Location))
 
 
 # class LocationManager:

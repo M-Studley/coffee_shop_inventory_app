@@ -12,11 +12,10 @@ class Inventory:
 
 
 class Inventories(BaseManager):
-    def __init__(self):
-        super().__init__('inventory', Inventory)
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(**kwargs)
 
 
 # inventories = Inventories()
-# print(inventories.full_list())
-# print()
-# print(inventories.search(id=1))
+# print(inventories.search(model_class=Inventory, table='inventory'))

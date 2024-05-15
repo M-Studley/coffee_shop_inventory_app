@@ -13,11 +13,10 @@ class ItemCategory:
     
     
 class ItemCategories(BaseManager):
-    def __init__(self):
-        super().__init__('item_category', ItemCategory)
+    @classmethod
+    def search(cls, **kwargs):
+        return BaseManager.search(**kwargs)
 
 
 # item_categories = ItemCategories()
-# print(item_categories.full_list())
-# print()
-# print(item_categories.search(id=1))
+# print(item_categories.search(model_class=ItemCategory, table='item_category'))

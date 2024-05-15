@@ -1,32 +1,53 @@
-from functools import cached_property, cache
 from database.database import Database
 
 db = Database()
 
 
 class BaseManager:
-    def __init__(self, table_name: str, model_class):
-        self.table = table_name
-        self.model_class = model_class
-
-    # @cached_property
-    def full_list(self) -> list:
-        query = f"SELECT * FROM `{self.table}`"
+    @classmethod
+    def full_list(cls, table: str, model_class) -> list:
+        query = f"SELECT * FROM `{table}`"
         all_rows = db.fetchall(query)
-        return [self.model_class(**row) for row in all_rows]
+        return [model_class(**row) for row in all_rows]
 
-    @cache
-    def search(self, **kwargs) -> list:
-        results = self.full_list()
+    @classmethod
+    def search(cls, table: str, model_class, **kwargs) -> list:
+        results = BaseManager.full_list(table, model_class)
         for item in results:
             for key in kwargs:
-                try:
-                    value = getattr(item, key)
-                except AttributeError:
-                    raise Exception(f"Key '{key}' does not exist...")
+                if not hasattr(item, key): raise Exception(f"Key '{key}' does not exist...")
+
+                value = getattr(item, key)
 
                 if value != kwargs[key]:
                     results.remove(item)
                     break
 
         return results
+
+
+# class Searchable:
+#     @property
+#     def camel_to_snake_case(self):
+#         table_name = re.sub(r'ies$', 'y', self.__class__.__name__)
+#         table_name = re.sub(r's$', '', table_name)
+#         table_name = re.sub(r'(?<=[a-z])(?=[A-Z])', '_', table_name).lower()
+#         return table_name
+#
+#     def search(self, model_class, **kwargs):
+#         table_name = self.camel_to_snake_case
+#         query = f"SELECT * FROM `{table_name}`"
+#         all_rows = db.fetchall(query)
+#         results = [model_class(**row) for row in all_rows]
+#
+#         for item in results:
+#             for key in kwargs:
+#                 if not hasattr(item, key):
+#                     raise Exception(f"Key '{key}' does not exist...")
+#
+#                 value = getattr(item, key)
+#                 if value != kwargs[key]:
+#                     results.remove(item)
+#                     break
+#
+#         return results

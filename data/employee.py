@@ -19,15 +19,7 @@ class Employee:
 
 
 class Employees(BaseManager):
-    def __init__(self):
-        super().__init__('employee', Employee)
-
-    def full_list(self) -> list:
-        full_list = super().full_list()
-        for employee in full_list:
-            employee.store = next((c for c in Stores().search(id=employee._store_number_id)), None)
-
-        return full_list
+    pass
 
 
 # employees = Employees()
