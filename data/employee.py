@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from database.database import Database
-# from data.store import Stores
 from data.utils import Searchable
 
 db = Database()
@@ -19,7 +18,3 @@ class Employee:
 
 class Employees(Searchable):
     child = Employee
-
-
-# print(Employees().search())
-

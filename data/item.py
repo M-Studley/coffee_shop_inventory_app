@@ -30,12 +30,3 @@ class Item:
 
 class Items(Searchable):
     child = Item
-
-
-print(Items().search())
-print()
-for item in Items().search(id=1):
-    print(item.item_category, 'item category')
-print()
-for item in Items().search(id=1):
-    print(item.item_info, 'item info')

@@ -18,6 +18,3 @@ class ItemInfo:
 
 class ItemInfos(Searchable):
     child = ItemInfo
-
-
-# print(ItemInfos().search())

@@ -15,7 +15,3 @@ class PurveyorLogin:
     
 class PurveyorLogins(Searchable):
     child = PurveyorLogin
-
-
-# pur_log = PurveyorLogins()
-# print(pur_log.search())

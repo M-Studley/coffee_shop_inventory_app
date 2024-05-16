@@ -19,9 +19,3 @@ class Inventory:
 
 class Inventories(Searchable):
     child = Inventory
-
-
-print(Inventories().search())
-print()
-for inventory in Inventories().search(id=1):
-    print(inventory.items)

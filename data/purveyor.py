@@ -25,9 +25,3 @@ class Purveyor:
 
 class Purveyors(Searchable):
     child = Purveyor
-
-
-# print(Purveyors().search())
-for purveyor in Purveyors().search(id=1):
-    print(purveyor.purveyor_login)
-    print(purveyor.items)

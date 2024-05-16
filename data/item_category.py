@@ -14,6 +14,3 @@ class ItemCategory:
     
 class ItemCategories(Searchable):
     child = ItemCategory
-
-
-# print(ItemCategories().search())
