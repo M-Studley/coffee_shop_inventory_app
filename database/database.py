@@ -35,18 +35,18 @@ class Database:
     @classmethod
     def curs(cls) -> DictCursor:
         print("Creating cursor...")
-        return Database.conn.cursor()
+        return Database.conn().cursor()
 
     @classmethod
     def fetchall(cls, query: str) -> tuple:
-        curs = Database.curs
+        curs = Database.curs()
         curs.execute(query)
         print(f"Running {query}")
         return curs.fetchall()
 
     @classmethod
     def fetchone(cls, query: str) -> dict:
-        curs = Database.curs
+        curs = Database.curs()
         curs.execute(query)
         print(f"Running {query}")
         return curs.fetchone()
@@ -54,14 +54,11 @@ class Database:
     @classmethod
     def executemany(cls, query: str, data: list[tuple]) -> None:
         print("Executing many...")
-        Database.curs.executemany(query, data)
-        Database.conn.commit()
+        Database.curs().executemany(query, data)
+        Database.conn().commit()
 
     @classmethod
     def execute(cls, query: str, data: tuple) -> None:
         print("Executing one...")
-        Database.curs.execute(query, data)
-        Database.conn.commit()
-
-
-db = Database()
+        Database.curs().execute(query, data)
+        Database.conn().commit()

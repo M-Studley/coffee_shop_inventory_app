@@ -1,5 +1,7 @@
 import re
-from database.database import db
+from database.database import Database
+
+db = Database()
 
 
 class Searchable:

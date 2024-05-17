@@ -14,3 +14,6 @@ class Location:
 
 class Locations(Searchable):
     child = Location
+
+
+print(Locations().search())
