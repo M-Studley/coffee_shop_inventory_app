@@ -34,22 +34,6 @@ class Database:
                 cursorclass=DictCursor)
         Database.curs = Database.conn.cursor()
 
-    # @classmethod
-    # def conn(cls):
-    #     print("Getting new connection...")
-    #     return pymysql.connect(
-    #             host='localhost',
-    #             user='root',
-    #             password=private.my_pass,
-    #             database='coffee_shop_test',
-    #             charset='utf8mb4',
-    #             cursorclass=pymysql.cursors.DictCursor)
-    #
-    # @classmethod
-    # def curs(cls) -> DictCursor:
-    #     print("Creating cursor...")
-    #     return Database.conn().cursor()
-
     @classmethod
     def fetchall(cls, query: str) -> tuple:
         Database.curs.execute(query)
