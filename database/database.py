@@ -21,7 +21,7 @@ THIS IS THE DATA PERSISTENCE LAYER
 
 
 class Database:
-    conn: pymysql.connections.Connection = None
+    conn: pymysql.Connection = None
     curs: DictCursor = None
 
     @classmethod
@@ -76,3 +76,7 @@ class Database:
         print("Executing one...")
         Database.curs.execute(query, data)
         Database.conn.commit()
+
+
+if not Database.conn:
+    Database.init()
