@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-from database.database import Database
 from data.location import Locations
 from data.inventory import Inventories
 from data.employee import Employees
 from data.utils import Searchable
-
-db = Database()
 
 
 @dataclass

@@ -1,7 +1,5 @@
 import re
-from database.database import Database
-
-db = Database()
+from database.database import db
 
 
 class Searchable:
@@ -29,29 +27,3 @@ class Searchable:
                     break
 
         return results
-
-
-# class BaseManager:
-#     @classmethod
-#     def full_list(cls, table: str, model_class) -> list:
-#         query = f"SELECT * FROM `{table}`"
-#         all_rows = db.fetchall(query)
-#         return [model_class(**row) for row in all_rows]
-#
-#     @classmethod
-#     def search(cls, table: str, model_class, **kwargs) -> list:
-#         results = BaseManager.full_list(table, model_class)
-#         for item in results:
-#             for key in kwargs:
-#                 if not hasattr(item, key): raise Exception(f"Key '{key}' does not exist...")
-#
-#                 value = getattr(item, key)
-#
-#                 if value != kwargs[key]:
-#                     results.remove(item)
-#                     break
-#
-#         return results
-#
-
-

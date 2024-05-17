@@ -1,9 +1,6 @@
 from dataclasses import dataclass
-from database.database import Database
 from data.item import Items
 from data.utils import Searchable
-
-db = Database()
 
 
 @dataclass

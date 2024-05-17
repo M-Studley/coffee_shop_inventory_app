@@ -60,3 +60,4 @@ class Database:
         self.conn.commit()
 
 
+db = Database()
