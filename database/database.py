@@ -21,32 +21,46 @@ THIS IS THE DATA PERSISTENCE LAYER
 
 
 class Database:
+    conn: pymysql.connections.Connection = None
+    curs: DictCursor = None
+
     @classmethod
-    def conn(cls):
-        print("Getting new connection...")
-        return pymysql.connect(
+    def init(cls):
+        Database.conn = pymysql.connect(
                 host='localhost',
                 user='root',
                 password=private.my_pass,
                 database='coffee_shop_test',
                 charset='utf8mb4',
                 cursorclass=pymysql.cursors.DictCursor)
+        Database.curs = pymysql.cursors.DictCursor
 
-    @classmethod
-    def curs(cls) -> DictCursor:
-        print("Creating cursor...")
-        return Database.conn().cursor()
+    # @classmethod
+    # def conn(cls):
+    #     print("Getting new connection...")
+    #     return pymysql.connect(
+    #             host='localhost',
+    #             user='root',
+    #             password=private.my_pass,
+    #             database='coffee_shop_test',
+    #             charset='utf8mb4',
+    #             cursorclass=pymysql.cursors.DictCursor)
+    #
+    # @classmethod
+    # def curs(cls) -> DictCursor:
+    #     print("Creating cursor...")
+    #     return Database.conn().cursor()
 
     @classmethod
     def fetchall(cls, query: str) -> tuple:
-        curs = Database.curs()
+        curs = Database.curs
         curs.execute(query)
         print(f"Running {query}")
         return curs.fetchall()
 
     @classmethod
     def fetchone(cls, query: str) -> dict:
-        curs = Database.curs()
+        curs = Database.curs
         curs.execute(query)
         print(f"Running {query}")
         return curs.fetchone()
@@ -54,11 +68,11 @@ class Database:
     @classmethod
     def executemany(cls, query: str, data: list[tuple]) -> None:
         print("Executing many...")
-        Database.curs().executemany(query, data)
-        Database.conn().commit()
+        Database.curs.executemany(query, data)
+        Database.conn.commit()
 
     @classmethod
     def execute(cls, query: str, data: tuple) -> None:
         print("Executing one...")
-        Database.curs().execute(query, data)
-        Database.conn().commit()
+        Database.curs.execute(query, data)
+        Database.conn.commit()
