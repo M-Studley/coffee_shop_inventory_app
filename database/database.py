@@ -21,8 +21,8 @@ THIS IS THE DATA PERSISTENCE LAYER
 
 
 class Database:
-    @cached_property
-    def conn(self):
+    @classmethod
+    def conn(cls):
         print("Getting new connection...")
         return pymysql.connect(
                 host='localhost',
@@ -32,32 +32,36 @@ class Database:
                 charset='utf8mb4',
                 cursorclass=pymysql.cursors.DictCursor)
 
-    @property
-    def curs(self) -> DictCursor:
+    @classmethod
+    def curs(cls) -> DictCursor:
         print("Creating cursor...")
-        return self.conn.cursor()
+        return Database.conn.cursor()
 
-    def fetchall(self, query: str) -> tuple:
-        curs = self.curs
+    @classmethod
+    def fetchall(cls, query: str) -> tuple:
+        curs = Database.curs
         curs.execute(query)
         print(f"Running {query}")
         return curs.fetchall()
 
-    def fetchone(self, query: str) -> dict:
-        curs = self.curs
+    @classmethod
+    def fetchone(cls, query: str) -> dict:
+        curs = Database.curs
         curs.execute(query)
         print(f"Running {query}")
         return curs.fetchone()
 
-    def executemany(self, query: str, data: list[tuple]) -> None:
+    @classmethod
+    def executemany(cls, query: str, data: list[tuple]) -> None:
         print("Executing many...")
-        self.curs.executemany(query, data)
-        self.conn.commit()
+        Database.curs.executemany(query, data)
+        Database.conn.commit()
 
-    def execute(self, query: str, data: tuple) -> None:
+    @classmethod
+    def execute(cls, query: str, data: tuple) -> None:
         print("Executing one...")
-        self.curs.execute(query, data)
-        self.conn.commit()
+        Database.curs.execute(query, data)
+        Database.conn.commit()
 
 
 db = Database()
