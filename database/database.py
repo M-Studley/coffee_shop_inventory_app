@@ -1,6 +1,5 @@
 import pymysql
 from pymysql.cursors import DictCursor
-from functools import cached_property
 import private
 
 """ 
@@ -32,8 +31,8 @@ class Database:
                 password=private.my_pass,
                 database='coffee_shop_test',
                 charset='utf8mb4',
-                cursorclass=pymysql.cursors.DictCursor)
-        Database.curs = pymysql.cursors.DictCursor
+                cursorclass=DictCursor)
+        Database.curs = Database.conn.cursor()
 
     # @classmethod
     # def conn(cls):
@@ -53,17 +52,15 @@ class Database:
 
     @classmethod
     def fetchall(cls, query: str) -> tuple:
-        curs = Database.curs
-        curs.execute(query)
+        Database.curs.execute(query)
         print(f"Running {query}")
-        return curs.fetchall()
+        return Database.curs.fetchall()
 
     @classmethod
     def fetchone(cls, query: str) -> dict:
-        curs = Database.curs
-        curs.execute(query)
+        Database.curs.execute(query)
         print(f"Running {query}")
-        return curs.fetchone()
+        return Database.curs.fetchone()
 
     @classmethod
     def executemany(cls, query: str, data: list[tuple]) -> None:
