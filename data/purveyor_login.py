@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -10,5 +10,5 @@ class PurveyorLogin:
     _purveyor_id: int
     
     
-class PurveyorLogins(Searchable):
+class PurveyorLogins(DataManager):
     child = PurveyorLogin

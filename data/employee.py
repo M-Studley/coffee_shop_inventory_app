@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -13,5 +13,5 @@ class Employee:
     permission_level: int
 
 
-class Employees(Searchable):
+class Employees(DataManager):
     child = Employee

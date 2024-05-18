@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from data.item import Items
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -14,5 +14,5 @@ class Inventory:
         return Items().search(_inventory_id=self.id)
 
 
-class Inventories(Searchable):
+class Inventories(DataManager):
     child = Inventory

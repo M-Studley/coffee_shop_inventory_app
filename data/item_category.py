@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -9,5 +9,5 @@ class ItemCategory:
     description: str
     
     
-class ItemCategories(Searchable):
+class ItemCategories(DataManager):
     child = ItemCategory

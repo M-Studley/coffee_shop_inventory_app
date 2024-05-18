@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from data.purveyor_login import PurveyorLogins
 from data.item import Items
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -20,5 +20,5 @@ class Purveyor:
         return Items().search(_purveyor_id=self.id)
 
 
-class Purveyors(Searchable):
+class Purveyors(DataManager):
     child = Purveyor

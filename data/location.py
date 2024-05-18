@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -12,5 +12,5 @@ class Location:
     postal_code: int
 
 
-class Locations(Searchable):
+class Locations(DataManager):
     child = Location

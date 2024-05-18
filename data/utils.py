@@ -2,18 +2,24 @@ import re
 from database.database import Database as dB
 
 
-def update_instance(instance, **kwargs):
-    set_statement = ', '.join([f"`{key}` = %s" for key in kwargs.keys()])
-    query = f"""
-    UPDATE `{instance.__class__.__name__.lower()}`
-    SET {set_statement}
-    WHERE `id` = %s;
-    """
-    values = tuple(kwargs.values()) + (instance.id,)
-    dB.execute(query, values)
+class DataManager:
+    def update_instance(self, **kwargs):
+        set_statement = ', '.join([f"`{key}` = %s" for key in kwargs.keys()])
+        query = f"""
+        UPDATE `{self.__class__.__name__.lower()}`
+        SET {set_statement}
+        WHERE `id` = %s;
+        """
+        values = tuple(kwargs.values()) + (self.id,) # noqa
+        dB.execute(query, values)
 
+        updated_instances = self.search(id=self.id) # noqa
 
-class Searchable:
+        if updated_instances:
+            return next(iter(updated_instances))
+        else:
+            raise Exception("Updated instance not found...")
+
     @property
     def camel_to_snake_case(self):
         table_name = re.sub(r'ies$', 'y', self.__class__.__name__)

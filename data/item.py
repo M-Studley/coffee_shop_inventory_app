@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from data.item_category import ItemCategories
 from data.item_info import ItemInfos
-from data.utils import Searchable
+from data.utils import DataManager
 
 
 @dataclass
@@ -25,5 +25,5 @@ class Item:
         return ItemInfos().search(id=self._category_id)
 
 
-class Items(Searchable):
+class Items(DataManager):
     child = Item
